@@ -1,4 +1,4 @@
-# Expenses / Income
+# Expenses
 
 ### Auth - login credentials
  - email: test@test.cz
