@@ -4,19 +4,35 @@ import { Box, Button, Container, Grid } from '@mui/material';
 import { Header } from '../components/Header';
 import CardItem from '../components/Card/CardItem';
 import Typography from '@mui/material/Typography';
-import { IExpense } from '../types/types';
-import { items } from '../data/data';
+import { Item, Items } from '../types/types';
 import { ExpensesModalForm } from '../components/Form/Expenses/ExpensesModalForm';
 import { IncomeModalForm } from '../components/Form/Income/IncomeModalForm';
+import { v4 as uuid } from 'uuid';
+import { useItems } from '../utils/dataService';
+import { PieChartBasic } from '../components/Charts/PieChartBasic';
 
 const Homepage = () => {
   const { currentUser, isAuthenticated } = useAuth();
+
   const [isIncomeDialogOpen, setIsIncomeDialogOpen] = useState<boolean>(false);
   const [isExpenseDialogOpen, setIsExpenseDialogOpen] = useState<boolean>(false);
 
-  const handleDeleteItem = (id: string) => {};
+  const { items, deleteItemHandler, updateItemHandler, addItemHandler } = useItems();
 
-  const renderItems = (items: any) => {
+  const handleSubmit = (data: Record<string, any>, type: keyof Items) => {
+    const newItem: Item = {
+      id: uuid(),
+      amount: data.amount,
+      currency: data.currency,
+      title: data.title,
+      category: data.category,
+      createdAt: new Date().toLocaleDateString(),
+    };
+
+    addItemHandler(type, newItem);
+  };
+
+  const renderItems = (items: any, type: keyof Items) => {
     if (Array.isArray(items) && !items.length) {
       return (
         <Box
@@ -32,7 +48,7 @@ const Homepage = () => {
       );
     }
 
-    return items.map((item: IExpense, index: number) => (
+    return items.map((item: Item, index: number) => (
       <Grid item key={`${item.id}-${index}`}>
         <CardItem
           amount={item.amount}
@@ -40,7 +56,8 @@ const Homepage = () => {
           title={item.title}
           createdAt={item.createdAt}
           category={item?.category}
-          handleDelete={handleDeleteItem(item.id)}
+          handleDelete={deleteItemHandler(type, item.id)}
+          handleUpdate={updateItemHandler(type, item)}
         />
       </Grid>
     ));
@@ -65,10 +82,14 @@ const Homepage = () => {
           <Button variant="contained" onClick={() => setIsIncomeDialogOpen(true)}>
             Add item
           </Button>
-          <IncomeModalForm isOpen={isIncomeDialogOpen} handleClose={() => setIsIncomeDialogOpen(false)} />
+          <IncomeModalForm
+            isOpen={isIncomeDialogOpen}
+            handleClose={() => setIsIncomeDialogOpen(false)}
+            onSubmit={handleSubmit}
+          />
         </Box>
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-          {renderItems(items.income)}
+          {renderItems(items.income, 'income')}
         </Grid>
       </Container>
       <Container
@@ -87,16 +108,23 @@ const Homepage = () => {
           <Button variant="contained" onClick={() => setIsExpenseDialogOpen(true)}>
             Add item
           </Button>
-          <ExpensesModalForm isOpen={isExpenseDialogOpen} handleClose={() => setIsExpenseDialogOpen(false)} />
+          <ExpensesModalForm
+            isOpen={isExpenseDialogOpen}
+            handleClose={() => setIsExpenseDialogOpen(false)}
+            onSubmit={handleSubmit}
+          />
         </Box>
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-          {renderItems(items.expenses)}
+          {renderItems(items.expenses, 'expenses')}
         </Grid>
       </Container>
       <Container sx={{ padding: '2rem', border: '1px solid #b3b3b3', borderRadius: '10px' }}>
         <Typography variant="h4" component="div" sx={{ marginBottom: '.5rem' }}>
           Daily overview
         </Typography>
+        <Box>
+          <PieChartBasic data={items.income} />
+        </Box>
       </Container>
     </Container>
   );

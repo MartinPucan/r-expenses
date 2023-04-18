@@ -3,7 +3,7 @@ import { Box, Button, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../../contexts/Auth/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { PATH } from "../../../routes/constants/routes";
+import { PATH } from "../../../constants/routes";
 
 interface FormData {
   email: string;

@@ -5,7 +5,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
-import { PATH } from '../../routes/constants/routes';
+import { PATH } from '../../constants/routes';
 import { useAuth } from '../../contexts/Auth/AuthContext';
 
 interface IProps {

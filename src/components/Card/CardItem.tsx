@@ -14,9 +14,10 @@ interface IProps {
   createdAt: any;
   category?: string;
   handleDelete: any;
+  handleUpdate: any;
 }
 
-const CardItem: React.FC<IProps> = ({ title, amount, currency, createdAt, category, handleDelete }) => {
+const CardItem: React.FC<IProps> = ({ title, amount, currency, createdAt, category, handleDelete, handleUpdate }) => {
   const renderChip = (category?: string) => {
     if (!category) {
       return;
@@ -49,7 +50,7 @@ const CardItem: React.FC<IProps> = ({ title, amount, currency, createdAt, catego
           <IconButton aria-label="delete" onClick={handleDelete}>
             <DeleteIcon />
           </IconButton>
-          <IconButton aria-label="edit" onClick={handleDelete}>
+          <IconButton aria-label="edit" onClick={handleUpdate}>
             <EditIcon />
           </IconButton>
         </Box>

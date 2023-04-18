@@ -16,14 +16,11 @@ interface FormData {
 interface IProps {
   isOpen: boolean;
   handleClose: any;
+  onSubmit: any;
 }
 
-export const ExpensesModalForm: React.FC<IProps> = ({ isOpen, handleClose }) => {
+export const ExpensesModalForm: React.FC<IProps> = ({ isOpen, handleClose, onSubmit }) => {
   const { control, handleSubmit } = useForm<FormData>();
-
-  const onSubmit = (data: FormData) => {
-    console.log(data);
-  };
 
   return (
     <Dialog open={isOpen} onClose={handleClose}>

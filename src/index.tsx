@@ -5,7 +5,7 @@ import './index.css';
 import { AuthProvider } from './contexts/Auth/AuthContext';
 import { ProtectedRoute } from './routes/ProtectedRoute';
 import Homepage from './routes/Homepage';
-import { PATH } from './routes/constants/routes';
+import { PATH } from './constants/routes';
 import { Authentication } from './routes/Authentication';
 
 export const router = createBrowserRouter(

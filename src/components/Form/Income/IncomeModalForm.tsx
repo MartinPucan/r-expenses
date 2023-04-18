@@ -7,6 +7,10 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { Box, MenuItem, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { Category, Currency } from '../../../enums/enums';
+import { currencies } from '../../../constants/formFields';
+import { v4 as uuid } from 'uuid';
+import { useItems } from '../../../utils/dataService';
+import { Item } from '../../../types/types';
 
 interface FormData {
   title: string;
@@ -18,35 +22,15 @@ interface FormData {
 interface IProps {
   isOpen: boolean;
   handleClose: any;
+  onSubmit: any;
 }
 
-const currencies = [
-  {
-    value: Currency.CZK,
-    label: 'CZK',
-  },
-  {
-    value: Currency.USD,
-    label: 'USD',
-  },
-  {
-    value: Currency.EUR,
-    label: 'EUR',
-  },
-];
-
-export const IncomeModalForm: React.FC<IProps> = ({ isOpen, handleClose }) => {
+export const IncomeModalForm: React.FC<IProps> = ({ isOpen, handleClose, onSubmit }) => {
   const {
     handleSubmit,
     register,
     formState: { errors },
   } = useForm<FormData>();
-
-  const onSubmit = (data: FormData) => {
-    const extendedData = { ...data, createdAt: new Date().toLocaleString() };
-
-    console.log(extendedData);
-  };
 
   return (
     <Dialog open={isOpen} onClose={handleClose}>
