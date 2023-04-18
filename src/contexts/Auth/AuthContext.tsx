@@ -1,20 +1,26 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from './firebase';
+import { User } from '@firebase/auth';
+
+interface FormData {
+  email: string;
+  password: string;
+}
 
 interface AuthContextType {
   currentUser: any;
   isAuthenticated: boolean;
-  signUp: (email: string, password: string) => Promise<any>;
-  logIn: (data: { email: string; password: string }) => Promise<any>;
+  signUp: (data: FormData) => Promise<any>;
+  logIn: (data: FormData) => Promise<any>;
   logOut: () => Promise<void>;
 }
 
 const AuthContext = React.createContext<AuthContextType>({
   currentUser: null,
   isAuthenticated: false,
-  signUp: async (email: string, password: string) => {},
-  logIn: async (data: { email: string; password: string }) => {},
+  signUp: async (data: FormData) => {},
+  logIn: async (data: FormData) => {},
   logOut: async () => {},
 });
 
@@ -27,12 +33,12 @@ interface IAuthProvider {
 }
 
 export const AuthProvider: React.FC<IAuthProvider> = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const signUp = (email: string, password: string) => createUserWithEmailAndPassword(auth, email, password);
+  const signUp = ({ email, password }: FormData) => createUserWithEmailAndPassword(auth, email, password);
 
-  const logIn = async ({ email, password }: { email: string; password: string }) => {
+  const logIn = async ({ email, password }: FormData) => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
     } catch (error) {
@@ -44,7 +50,6 @@ export const AuthProvider: React.FC<IAuthProvider> = ({ children }) => {
 
   useEffect(() => {
     return auth.onAuthStateChanged((user) => {
-      // @ts-ignore
       setCurrentUser(user);
       setLoading(false);
     });

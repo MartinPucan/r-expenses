@@ -8,3 +8,9 @@ export enum ProductType {
   EXPENSES = 'EXPENSES',
   INCOME = 'INCOME'
 }
+
+export enum Currency {
+  CZK = 'CZK',
+  EUR = 'EUR',
+  USD = 'USD',
+}

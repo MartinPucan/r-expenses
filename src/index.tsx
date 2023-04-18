@@ -2,15 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom';
 import './index.css';
-import Login from './routes/Login';
 import { AuthProvider } from './contexts/Auth/AuthContext';
 import { ProtectedRoute } from './routes/ProtectedRoute';
 import Homepage from './routes/Homepage';
+import { PATH } from './routes/constants/routes';
+import { Authentication } from './routes/Authentication';
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-      <Route path="/login" element={<Login />} />
+      <Route path={PATH.LOGIN} element={<Authentication />} />
       <Route
         path="/"
         element={

@@ -33,19 +33,19 @@ const CardItem: React.FC<IProps> = ({ title, amount, currency, createdAt, catego
   };
 
   return (
-    <Card sx={{ minWidth: 250, minHeight: 195 }}>
+    <Card sx={{ minWidth: 250, minHeight: 150 }}>
       <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        <Box sx={{ minHeight: 120 }}>
+        <Box>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', fontSize: '20px' }}>
             <div>{title}</div>
             <div>{getPriceWithCurrency(amount, currency)}</div>
           </Box>
-          <Typography sx={{ marginTop: 1, marginBottom: '.5rem' }} color="text.secondary">
+          <Typography sx={{ marginTop: 1, marginBottom: '.5rem', fontSize: '14px' }} color="text.secondary">
             {createdAt.toLocaleString()}
           </Typography>
           {renderChip(category)}
         </Box>
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: '.5rem', marginTop: 'auto' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: '.25rem', marginTop: 'auto' }}>
           <IconButton aria-label="delete" onClick={handleDelete}>
             <DeleteIcon />
           </IconButton>
