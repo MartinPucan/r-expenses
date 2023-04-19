@@ -1,4 +1,5 @@
 import { Category } from '../enums/enums';
+import { Item, Items } from '../types/types';
 
 export const getPriceWithCurrency = (price: number, currency: string) => {
   return new Intl.NumberFormat('cs-CZ', {
@@ -7,6 +8,22 @@ export const getPriceWithCurrency = (price: number, currency: string) => {
     maximumFractionDigits: 0,
     minimumFractionDigits: 0,
   }).format(price);
+};
+
+export const getFormattedData = (data: any) => data.map((item: Item) => ({ ...item, amount: Number(item.amount) }));
+
+export const getValuesOfIncomesAndExpenses = (data: Items) => {
+  const totalIncomes = data.income.reduce((acc: number, item) => acc + Number(item.amount), 0);
+  const totalExpenses = data.expenses.reduce((acc: number, item) => acc + Number(item.amount), 0);
+
+  return [
+    {
+      value: totalIncomes,
+    },
+    {
+      value: totalExpenses,
+    },
+  ];
 };
 
 export const getCategoryConfig = (category?: string) => {

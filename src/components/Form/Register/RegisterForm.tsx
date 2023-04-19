@@ -2,8 +2,6 @@ import React from 'react';
 import { Box, Button, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useAuth } from '../../../contexts/Auth/AuthContext';
-import { useNavigate } from 'react-router-dom';
-import { PATH } from '../../../constants/routes';
 
 interface FormData {
   email: string;
@@ -20,9 +18,7 @@ const RegisterForm = () => {
   } = useForm<FormData>();
   const { signUp } = useAuth();
 
-  const navigate = useNavigate();
-
-  const onSubmit = (data: FormData) => signUp(data).then(() => navigate(PATH.HOME));
+  const onSubmit = (data: FormData) => signUp(data);
 
   const formData = watch();
 

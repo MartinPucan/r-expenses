@@ -30,14 +30,6 @@ const addItem = (type: keyof Items, item: Item) => {
   saveToLocalStorage(type, newItems);
 };
 
-const updateItem = (type: keyof Items, updatedItem: Item) => {
-  const items = getFromLocalStorage(type) as Item[] | null;
-  if (items) {
-    const updatedItems = items.map((item) => (item.id === updatedItem.id ? updatedItem : item));
-    saveToLocalStorage(type, updatedItems);
-  }
-};
-
 const deleteItem = (type: keyof Items, id: string) => {
   const items = getFromLocalStorage(type) as Item[] | null;
   if (items) {
@@ -52,6 +44,7 @@ export const useItems = () => {
   useEffect(() => {
     const income = getFromLocalStorage('income') || [];
     const expenses = getFromLocalStorage('expenses') || [];
+
     setItems({ income, expenses });
   }, []);
 
@@ -63,17 +56,6 @@ export const useItems = () => {
     }));
   };
 
-  const updateItemHandler = (type: keyof Items, updatedItem: Item) => {
-    updateItem(type, updatedItem);
-    setItems((prevState) => {
-      const updatedItems = prevState[type].map((item) => (item.id === updatedItem.id ? updatedItem : item));
-      return {
-        ...prevState,
-        [type]: updatedItems,
-      };
-    });
-  };
-
   const deleteItemHandler = (type: keyof Items, id: string) => {
     deleteItem(type, id);
     setItems((prevState) => ({
@@ -82,5 +64,5 @@ export const useItems = () => {
     }));
   };
 
-  return { items, addItemHandler, updateItemHandler, deleteItemHandler };
+  return { items, addItemHandler, deleteItemHandler };
 };

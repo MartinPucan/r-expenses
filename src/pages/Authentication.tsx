@@ -5,6 +5,9 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import LoginForm from '../components/Form/Login/LoginForm';
 import RegisterForm from '../components/Form/Register/RegisterForm';
+import { useAuth } from "../contexts/Auth/AuthContext";
+import { Navigate } from "react-router-dom";
+import { PATH } from "../constants/routes";
 
 interface TabPanelProps {
   children?: ReactNode;
@@ -41,6 +44,12 @@ function a11yProps(index: number) {
 
 export const Authentication = () => {
   const [value, setValue] = useState(0);
+
+  const { isAuthenticated } = useAuth();
+
+  if (isAuthenticated) {
+    return <Navigate to={PATH.HOME} />;
+  }
 
   const handleChange = (event: SyntheticEvent, newValue: number) => {
     setValue(newValue);

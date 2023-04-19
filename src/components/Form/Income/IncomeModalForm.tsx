@@ -8,9 +8,9 @@ import { Box, MenuItem, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { Category, Currency } from '../../../enums/enums';
 import { currencies } from '../../../constants/formFields';
-import { v4 as uuid } from 'uuid';
-import { useItems } from '../../../utils/dataService';
-import { Item } from '../../../types/types';
+import { Item } from "../../../types/types";
+import { v4 as uuid } from "uuid";
+import { useItems } from "../../../utils/dataService";
 
 interface FormData {
   title: string;
@@ -22,15 +22,30 @@ interface FormData {
 interface IProps {
   isOpen: boolean;
   handleClose: any;
-  onSubmit: any;
 }
 
-export const IncomeModalForm: React.FC<IProps> = ({ isOpen, handleClose, onSubmit }) => {
+export const IncomeModalForm: React.FC<IProps> = ({ isOpen, handleClose }) => {
   const {
     handleSubmit,
     register,
     formState: { errors },
   } = useForm<FormData>();
+
+  const { addItemHandler } = useItems();
+
+  const onSubmit = (data: Record<string, any>) => {
+    const newItem: Item = {
+      id: uuid(),
+      amount: data.amount,
+      currency: data.currency,
+      title: data.title,
+      category: data.category,
+      createdAt: new Date().toDateString(),
+    };
+
+    addItemHandler('income', newItem);
+    handleClose();
+  };
 
   return (
     <Dialog open={isOpen} onClose={handleClose}>
