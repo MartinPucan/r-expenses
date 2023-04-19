@@ -40,6 +40,7 @@ const deleteItem = (type: keyof Items, id: string) => {
 
 export const useItems = () => {
   const [items, setItems] = useState<Items>({ income: [], expenses: [] });
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const income = getFromLocalStorage('income') || [];
@@ -49,11 +50,13 @@ export const useItems = () => {
   }, []);
 
   const addItemHandler = (type: keyof Items, item: Item) => {
+    setIsLoading(true);
     addItem(type, item);
     setItems((prevState) => ({
       ...prevState,
       [type]: [...prevState[type], item],
     }));
+    setIsLoading(true);
   };
 
   const deleteItemHandler = (type: keyof Items, id: string) => {
@@ -64,5 +67,5 @@ export const useItems = () => {
     }));
   };
 
-  return { items, addItemHandler, deleteItemHandler };
+  return { isLoading, items, addItemHandler, deleteItemHandler };
 };

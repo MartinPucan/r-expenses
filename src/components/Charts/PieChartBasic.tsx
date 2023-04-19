@@ -1,5 +1,5 @@
 import React from 'react';
-import { PieChart, Pie, Cell, BarChart, Bar } from 'recharts';
+import { PieChart, Pie, Cell, BarChart, Bar, BarProps } from "recharts";
 import { Box, Container, Paper } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { getFormattedData, getValuesOfIncomesAndExpenses } from '../../utils';
@@ -19,6 +19,11 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
     </text>
   );
 };
+
+interface ChartData {
+  value: number;
+  fill?: string;
+}
 
 interface IProps {
   data: Items;
@@ -75,7 +80,8 @@ export const PieChartBasic: React.FC<IProps> = ({ data }) => {
           <Typography variant="h5">Income / Expenses</Typography>
           <Box sx={{ display: 'grid', placeItems: 'center', marginTop: '3rem' }}>
             <BarChart width={150} height={150} data={totalValues}>
-              <Bar dataKey="value" fill="#0088FE" />
+              {/* @ts-ignore */}
+              <Bar dataKey="value" fill={ (bar: BarProps<ChartData>) => bar.fill || '#98D8AA' } />
             </BarChart>
           </Box>
         </Paper>

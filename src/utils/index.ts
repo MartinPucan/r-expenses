@@ -19,9 +19,11 @@ export const getValuesOfIncomesAndExpenses = (data: Items) => {
   return [
     {
       value: totalIncomes,
+      fill: '#98D8AA'
     },
     {
       value: totalExpenses,
+      fill: '#FFA559'
     },
   ];
 };
