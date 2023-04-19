@@ -1,9 +1,7 @@
 # Expenses
 
-### Auth - login credentials
- - email: test@test.cz
- - password: Adminekk09
+### Auth
+- Firebase provider
+- Simple login / register
 
-### TODO
- - CRUD Expenses / Income -> temporary data.ts
- - Charts
+### UI - MaterialUI
